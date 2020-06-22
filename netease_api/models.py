@@ -32,7 +32,7 @@ class PlayList(models.Model):
     song = models.ManyToManyField('Song', verbose_name='Playlist songs')
     name = models.CharField(max_length=40, verbose_name='Playlist name')
     pid = models.IntegerField(verbose_name='Playlist id')
-    type = models.IntegerField(verbose_name='Playlist type')
+    type = models.IntegerField(verbose_name='Playlist type', default=0)
 
     def __str__(self):
         return self.name
