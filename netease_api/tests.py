@@ -62,24 +62,22 @@ class SongModelTests(ModelTests):
     def test_song_id(self):
         self.assertEqual((self.s1.sid, self.s2.sid, self.s3.sid), (10, 20, 30))
 
-    def test_song_in_album(self):
-        """反向查询拥有 Song 的 Album 具体的关系应该是
-            s1 in al1, al2, al3
-            s2 in al2, al3
-            s3 in al3"""
-
+    def test_s1_in_album(self):
         self.assertEqual(list(self.s3.album_set.all()), [self.al3])
+
+    def test_s2_in_album(self):
         self.assertEqual(list(self.s2.album_set.all()), [self.al2, self.al3])
+
+    def test_s3_in_album(self):
         self.assertEqual(list(self.s1.album_set.all()), [self.al1, self.al2, self.al3])
 
-    def test_song_in_playlist(self):
-        """反向查询拥有 Song 的 PlayList 具体的关系应该是
-            s1 in p1, p2, p3
-            s2 in p2, p3
-            s3 in p3"""
-
+    def test_s1_in_playlist(self):
         self.assertEqual(list(self.s3.playlist_set.all()), [self.p3])
+
+    def test_s2_in_playlist(self):
         self.assertEqual(list(self.s2.playlist_set.all()), [self.p2, self.p3])
+
+    def test_s3_in_playlist(self):
         self.assertEqual(list(self.s1.playlist_set.all()), [self.p1, self.p2, self.p3])
 
 
@@ -92,9 +90,13 @@ class AlbumModelTests(ModelTests):
     def test_album_id(self):
         self.assertEqual((self.al1.aid, self.al2.aid, self.al3.aid), (11, 21, 31))
 
-    def test_album_in_artist(self):
+    def test_al1_in_artist(self):
         self.assertEqual(list(self.al3.artist_set.all()), [self.a3])
+
+    def test_al2_in_artist(self):
         self.assertEqual(list(self.al2.artist_set.all()), [self.a2, self.a3])
+
+    def test_al3_in_artist(self):
         self.assertEqual(list(self.al1.artist_set.all()), [self.a1, self.a2, self.a3])
 
 
