@@ -68,8 +68,8 @@ def create_playlist_data(s1: Song, s2: Song, s3: Song) -> Tuple[PlayList, PlayLi
         p3: s1, s2, s3"""
 
     p1 = PlayList(name='p1', pid=13)
-    p2 = PlayList(name='p2', pid=23)
-    p3 = PlayList(name='p3', pid=33)
+    p2 = PlayList(name='p2', pid=23, type=5)
+    p3 = PlayList(name='p3', pid=33, type=1)
     p1.save(), p2.save(), p3.save()
 
     p1.song.add(s1)
@@ -119,10 +119,10 @@ class ModelTests(TestCase):
 
 class SongModelTests(ModelTests):
 
-    def test_song_name_and_id(self):
-        """测试添加 name、sid 时是否正常"""
-
+    def test_song_name(self):
         self.assertEqual((self.s1.name, self.s2.name, self.s3.name), ('s1', 's2', 's3'))
+
+    def test_song_id(self):
         self.assertEqual((self.s1.sid, self.s2.sid, self.s3.sid), (10, 20, 30))
 
     def test_song_in_album(self):
@@ -164,3 +164,48 @@ class SongModelTests(ModelTests):
         self.assertEqual(list(self.s3.user_set.all()), [self.u3])
         self.assertEqual(list(self.s2.user_set.all()), [self.u2, self.u3])
         self.assertEqual(list(self.s1.user_set.all()), [self.u1, self.u2, self.u3])
+
+
+class AlbumModelTests(ModelTests):
+    """与模型 Song 相关的东西在 SongModelTests 中已经测试的差不多了，所以本测试类只专注于 Song 以外的点"""
+
+    def test_album_name(self):
+        self.assertEqual((self.al1.name, self.al2.name, self.al3.name), ('al1', 'al2', 'al3'))
+
+    def test_album_id(self):
+        self.assertEqual((self.al1.aid, self.al2.aid, self.al3.aid), (11, 21, 31))
+
+    def test_album_in_artist(self):
+        self.assertEqual(list(self.al3.artist_set.all()), [self.a3])
+        self.assertEqual(list(self.al2.artist_set.all()), [self.a2, self.a3])
+        self.assertEqual(list(self.al1.artist_set.all()), [self.a1, self.a2, self.a3])
+
+
+class ArtistModelTests(ModelTests):
+
+    def test_artist_name(self):
+        self.assertEqual((self.a1.name, self.a2.name, self.a3.name), ('a1', 'a2', 'a3'))
+
+    def test_artist_id(self):
+        self.assertEqual((self.a1.aid, self.a2.aid, self.a3.aid), (12, 22, 32))
+
+
+class PlayListModelTests(ModelTests):
+
+    def test_playlist_name(self):
+        self.assertEqual((self.p1.name, self.p2.name, self.p3.name), ('p1', 'p2', 'p3'))
+
+    def test_playlist_id(self):
+        self.assertEqual((self.p1.pid, self.p2.pid, self.p3.pid), (13, 23, 33))
+
+    def test_playlist_type(self):
+        self.assertEqual((self.p1.type, self.p2.type, self.p3.type), (0, 5, 1))
+
+
+class UserModelTests(ModelTests):
+
+    def test_user_name(self):
+        self.assertEqual((self.u1.name, self.u2.name, self.u3.name), ('u1', 'u2', 'u3'))
+
+    def test_user_id(self):
+        self.assertEqual((self.u1.uid, self.u2.uid, self.u3.uid), (14, 24, 34))
