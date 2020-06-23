@@ -29,10 +29,19 @@ class Artist(models.Model):
 
 
 class PlayList(models.Model):
-    song = models.ManyToManyField('Song', verbose_name='Playlist songs')
-    name = models.CharField(max_length=40, verbose_name='Playlist name')
-    pid = models.IntegerField(verbose_name='Playlist id')
-    type = models.IntegerField(verbose_name='Playlist type', default=0)
+    song = models.ManyToManyField('Song', verbose_name='包涵歌曲')
+    name = models.CharField(max_length=40, verbose_name='歌单名称')
+    pid = models.IntegerField(verbose_name='歌单ID')
+    type = models.IntegerField(verbose_name='歌单类型', default=0)
+    description = models.CharField(max_length=1000, verbose_name='简介')
+    ordered = models.BooleanField(default=False, verbose_name='收藏的歌单')
+    tag = models.CharField(max_length=50, default='[]', verbose_name='歌单标签的json')  # !此处可以自定义一个JSON字段，继承于CharField
+    createTime = models.DateTimeField(verbose_name='创建时间')
+    master_user = models.ForeignKey('User',
+                                    on_delete=models.CASCADE,
+                                    related_name='Playlist_Master',
+                                    verbose_name='创建该歌单的用户'
+                                    )
 
     def __str__(self):
         return self.name
