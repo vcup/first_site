@@ -105,7 +105,7 @@ def create_user_data(p1: PlayList, p2: PlayList, p3: PlayList) -> Tuple[User, Us
     return u1, u2, u3
 
 
-class SongModelTests(TestCase):
+class ModelTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -116,12 +116,14 @@ class SongModelTests(TestCase):
         cls.p1, cls.p2, cls.p3 = create_playlist_data(cls.s1, cls.s2, cls.s3)
         cls.u1, cls.u2, cls.u3 = create_user_data(cls.p1, cls.p2, cls.p3)
 
+
+class SongModelTests(ModelTests):
+
     def test_song_name_and_id(self):
         """测试添加 name、sid 时是否正常"""
-        s = Song(name='a Song', sid=751472)
-        s.save()
-        self.assertIs(s.name, 'a Song')
-        self.assertIs(s.sid, 751472)
+
+        self.assertEqual((self.s1.name, self.s2.name, self.s3.name), ('s1', 's2', 's3'))
+        self.assertEqual((self.s1.sid, self.s2.sid, self.s3.sid), (10, 20, 30))
 
     def test_song_in_album(self):
         """反向查询拥有 Song 的 Album 具体的关系应该是
