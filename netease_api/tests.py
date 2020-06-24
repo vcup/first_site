@@ -68,17 +68,16 @@ class SongModelTests(ModelTests):
         self.assertEqual(list(self.s1.album_set.all()), [self.al1, self.al2, self.al3])
 
     def test_s1_in_playlist(self):
-        self.assertEqual(list(self.s3.playlist_set.all()), [self.p3])
+        self.assertEqual(list(self.s1.playlist_set.all()), [self.p1, self.p2, self.p3])
 
     def test_s2_in_playlist(self):
         self.assertEqual(list(self.s2.playlist_set.all()), [self.p2, self.p3])
 
     def test_s3_in_playlist(self):
-        self.assertEqual(list(self.s1.playlist_set.all()), [self.p1, self.p2, self.p3])
+        self.assertEqual(list(self.s3.playlist_set.all()), [self.p3])
 
 
 class AlbumModelTests(ModelTests):
-    """与模型 Song 相关的东西在 SongModelTests 中已经测试的差不多了，所以本测试类只专注于 Song 以外的点"""
 
     def test_album_name(self):
         self.assertEqual((self.al1.name, self.al2.name, self.al3.name), ('al1', 'al2', 'al3'))
@@ -87,13 +86,13 @@ class AlbumModelTests(ModelTests):
         self.assertEqual((self.al1.id, self.al2.id, self.al3.id), (11, 21, 31))
 
     def test_al1_in_artist(self):
-        self.assertEqual(list(self.al3.artist_set.all()), [self.a3])
+        self.assertEqual(list(self.al1.artist_set.all()), [self.a1, self.a2, self.a3])
 
     def test_al2_in_artist(self):
         self.assertEqual(list(self.al2.artist_set.all()), [self.a2, self.a3])
 
     def test_al3_in_artist(self):
-        self.assertEqual(list(self.al1.artist_set.all()), [self.a1, self.a2, self.a3])
+        self.assertEqual(list(self.al3.artist_set.all()), [self.a3])
 
 
 class ArtistModelTests(ModelTests):
@@ -104,14 +103,14 @@ class ArtistModelTests(ModelTests):
     def test_artist_id(self):
         self.assertEqual((self.a1.id, self.a2.id, self.a3.id), (12, 22, 32))
 
-    def test_a1_have_song(self):
-        self.assertEqual(self.a1.return_self_have_song(), [[self.s1]])
+    def test_a1_have_album(self):
+        self.assertEqual(list(self.a1.album.all()), [self.al1])
 
-    def test_a2_have_song(self):
-        self.assertEqual(self.a2.return_self_have_song(), [[self.s1], [self.s1, self.s2]])
+    def test_a2_have_album(self):
+        self.assertEqual(list(self.a2.album.all()), [self.al1, self.al2])
 
-    def test_a3_have_song(self):
-        self.assertEqual(self.a3.return_self_have_song(), [[self.s1], [self.s1, self.s2], [self.s1, self.s2, self.s3]])
+    def test_a3_have_album(self):
+        self.assertEqual(list(self.a3.album.all()), [self.al1, self.al2, self.al3])
 
 
 class PlayListModelTests(ModelTests):
@@ -134,6 +133,15 @@ class PlayListModelTests(ModelTests):
     def test_p3_have_song(self):
         self.assertEqual(list(self.p3.song.all()), [self.s1, self.s2, self.s3])
 
+    def test_p1_in_user(self):
+        self.assertEqual(list(self.p1.user_set.all()), [self.u3, self.u1, self.u2])
+
+    def test_p2_in_user(self):
+        self.assertEqual(list(self.p2.user_set.all()), [self.u3, self.u2])
+
+    def test_p3_in_user(self):
+        self.assertEqual(list(self.p3.user_set.all()), [self.u3])
+
 
 class UserModelTests(ModelTests):
 
@@ -153,4 +161,4 @@ class UserModelTests(ModelTests):
         self.assertEqual(list(self.u3.playlist.all()), [self.p1, self.p2, self.p3])
 
     def test_u3_have_self_created_playlist(self):
-        self.assertEqual(list(self.u1.playlist.all()), [self.p1, self.p3])
+        self.assertEqual(list(self.u1.playlist.all()), [self.p1])
