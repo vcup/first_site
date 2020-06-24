@@ -47,7 +47,14 @@ class PlayList(models.Model):
     def __str__(self):
         return self.name
 
-    def return_self_master_user(self) -> List['User']:
+    def save(self, **kwargs):
+        super(PlayList, self).save(**kwargs)
+        if not self.user_set.filter(pk=self.master_uid):
+            new_master_user = User.objects.get(id=self.master_uid)
+            new_master_user.playlist.add(self)
+            new_master_user.save()
+
+    def master_user(self) -> 'User':
         return User.objects.get(pk=self.master_uid)
 
 
@@ -58,12 +65,3 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
-
-    def return_self_have_song(self) -> List[List[Song]]:
-        return [list(p.song.all()) for p in self.playlist.all()]
-
-    def this_playlist_is_self_created(self, playlist: PlayList) -> bool:
-        return playlist.master_uid == self.id
-
-    def return_self_created_playlist(self):
-        return self.playlist.filter(user__playlist__master_uid=self.pk)

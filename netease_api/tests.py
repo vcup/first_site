@@ -47,8 +47,7 @@ class ModelTests(TestCase):
 
         cls.u1.playlist.add(cls.p1)
         cls.u2.playlist.add(cls.p1, cls.p2)
-        cls.u3.playlist.add(cls.p1, cls.p2, cls.p3)
-        cls.u1.save(), cls.u2.save(), cls.u3.save()
+        cls.u1.save(), cls.u2.save()
 
 
 class SongModelTests(ModelTests):
@@ -126,6 +125,15 @@ class PlayListModelTests(ModelTests):
     def test_playlist_type(self):
         self.assertEqual((self.p1.type, self.p2.type, self.p3.type), (0, 5, 1))
 
+    def test_p1_have_song(self):
+        self.assertEqual(list(self.p1.song.all()), [self.s1])
+
+    def test_p2_have_song(self):
+        self.assertEqual(list(self.p2.song.all()), [self.s1, self.s2])
+
+    def test_p3_have_song(self):
+        self.assertEqual(list(self.p3.song.all()), [self.s1, self.s2, self.s3])
+
 
 class UserModelTests(ModelTests):
 
@@ -135,11 +143,14 @@ class UserModelTests(ModelTests):
     def test_user_id(self):
         self.assertEqual((self.u1.id, self.u2.id, self.u3.id), (14, 24, 34))
 
-    def test_u1_have_song(self):
-        self.assertEqual(self.u1.return_self_have_song(), [[self.s1]])
+    def test_u1_have_playlist(self):
+        self.assertEqual(list(self.u1.playlist.all()), [self.p1])
 
-    def test_u2_have_song(self):
-        self.assertEqual(self.u2.return_self_have_song(), [[self.s1], [self.s1, self.s2]])
+    def test_u2_have_playlist(self):
+        self.assertEqual(list(self.u2.playlist.all()), [self.p1, self.p2])
 
-    def test_u3_have_song(self):
-        self.assertEqual(self.u3.return_self_have_song(), [[self.s1], [self.s1, self.s2], [self.s1, self.s2, self.s3]])
+    def test_u3_have_playlist(self):
+        self.assertEqual(list(self.u3.playlist.all()), [self.p1, self.p2, self.p3])
+
+    def test_u3_have_self_created_playlist(self):
+        self.assertEqual(list(self.u1.playlist.all()), [self.p1, self.p3])
