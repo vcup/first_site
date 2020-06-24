@@ -46,6 +46,7 @@ class PlayList(models.Model):
                                     related_name='Playlist_Master',
                                     verbose_name='创建该歌单的用户'
                                     )
+    imgUrl = models.CharField(max_length=100, verbose_name='封面Url')
 
     def __str__(self):
         return self.name
