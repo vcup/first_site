@@ -5,7 +5,7 @@ from django.db import models
 
 class Song(models.Model):
     name = models.CharField(max_length=50, verbose_name='Song name')
-    sid = models.IntegerField(verbose_name='Song id')
+    id = models.IntegerField(verbose_name='Song id', primary_key=True)
 
     def __str__(self):
         return self.name
@@ -14,7 +14,7 @@ class Song(models.Model):
 class Album(models.Model):
     song = models.ManyToManyField('Song', verbose_name='Album songs')
     name = models.CharField(max_length=50, verbose_name='Album name')
-    aid = models.IntegerField(verbose_name='Album id')
+    id = models.IntegerField(verbose_name='Album id', primary_key=True)
 
     def __str__(self):
         return self.name
@@ -23,7 +23,7 @@ class Album(models.Model):
 class Artist(models.Model):
     album = models.ManyToManyField('Album', verbose_name='Artist albums')
     name = models.CharField(max_length=30, verbose_name='Artist name')
-    aid = models.IntegerField(verbose_name='Artist id')
+    id = models.IntegerField(verbose_name='Artist id', primary_key=True)
 
     def __str__(self):
         return self.name
@@ -35,7 +35,7 @@ class Artist(models.Model):
 class PlayList(models.Model):
     song = models.ManyToManyField('Song', verbose_name='包涵歌曲')
     name = models.CharField(max_length=40, verbose_name='歌单名称')
-    pid = models.IntegerField(verbose_name='歌单ID')
+    id = models.IntegerField(verbose_name='歌单ID', primary_key=True)
     type = models.IntegerField(verbose_name='歌单类型', default=0)
     description = models.CharField(default='', max_length=1000, verbose_name='简介')
     ordered = models.BooleanField(default=False, verbose_name='收藏的歌单')
@@ -55,7 +55,7 @@ class PlayList(models.Model):
 class User(models.Model):
     playlist = models.ManyToManyField('PlayList', verbose_name='User playlists')
     name = models.CharField(max_length=30, verbose_name='User name')
-    uid = models.IntegerField(verbose_name='User id')
+    id = models.IntegerField(verbose_name='User id', primary_key=True)
 
     def __str__(self):
         return self.name
