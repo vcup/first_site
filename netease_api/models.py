@@ -1,6 +1,7 @@
 from typing import List
 
 from django.db import models
+from django.utils import timezone
 
 
 class Song(models.Model):
@@ -34,7 +35,7 @@ class Artist(models.Model):
 
 class PlayList(models.Model):
     id = models.IntegerField(verbose_name='歌单ID', primary_key=True)
-    master_uid = models.IntegerField(verbose_name='创建该歌单的用户')
+    master_uid = models.IntegerField(verbose_name='创建该歌单的用户的id')
     name = models.CharField(max_length=40, verbose_name='歌单名称')
     type = models.IntegerField(verbose_name='歌单类型', default=0)
     description = models.CharField(default='', max_length=1000, verbose_name='简介')
@@ -58,9 +59,17 @@ class PlayList(models.Model):
 
 
 class User(models.Model):
-    playlist = models.ManyToManyField('PlayList', verbose_name='User playlists')
-    name = models.CharField(max_length=30, verbose_name='User name')
-    id = models.IntegerField(verbose_name='User id', primary_key=True)
+    playlist = models.ManyToManyField('PlayList', verbose_name='用户拥有的歌单')
+    name = models.CharField(max_length=30, verbose_name='用户昵称')
+    id = models.IntegerField(verbose_name='用户id', primary_key=True)
+    createTime = models.DateTimeField(verbose_name='注册时间')
+    birthday = models.DateTimeField(verbose_name='生日')
+    level = models.IntegerField(default=0, verbose_name='用户等级')
+    gender = models.IntegerField(default=0, verbose_name='性别')
+    city = models.IntegerField(default=100, verbose_name='所在地')
+    avatar_url = models.CharField(default='', max_length=100, verbose_name='头像地址')
+    background_url = models.CharField(default='', max_length=100, verbose_name='背景图片地址')
+    description = models.CharField(default='', max_length=300, verbose_name='个人介绍')
 
     def __str__(self):
         return self.name
