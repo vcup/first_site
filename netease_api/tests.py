@@ -22,9 +22,9 @@ class ModelTests(TestCase):
         cls.a2 = Artist.objects.create(name='a2', id=22)
         cls.a3 = Artist.objects.create(name='a3', id=32)
 
-        cls.u1 = User.objects.create(name='u1', id=14)
-        cls.u2 = User.objects.create(name='u2', id=24)
-        cls.u3 = User.objects.create(name='u3', id=34)
+        cls.u1 = User.objects.create(name='u1', id=14, createTime=timezone.now(), birthday=timezone.now())
+        cls.u2 = User.objects.create(name='u2', id=24, createTime=timezone.now(), birthday=timezone.now())
+        cls.u3 = User.objects.create(name='u3', id=34, createTime=timezone.now(), birthday=timezone.now())
 
         cls.p1 = PlayList.objects.create(name='p1', id=13, createTime=timezone.now(), master_uid=34)
         cls.p2 = PlayList.objects.create(name='p2', id=23, type=5, createTime=timezone.now(), master_uid=34)
