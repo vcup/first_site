@@ -1,7 +1,6 @@
 from typing import List
 
 from django.db import models
-from django.utils import timezone
 
 
 class Song(models.Model):
@@ -22,9 +21,13 @@ class Album(models.Model):
 
 
 class Artist(models.Model):
-    album = models.ManyToManyField('Album', verbose_name='Artist albums')
-    name = models.CharField(max_length=30, verbose_name='Artist name')
-    id = models.IntegerField(verbose_name='Artist id', primary_key=True)
+    album = models.ManyToManyField('Album', verbose_name='歌手拥有的专辑')
+    name = models.CharField(max_length=30, verbose_name='歌手名')
+    id = models.IntegerField(verbose_name='歌手id', primary_key=True)
+    user_id = models.IntegerField(verbose_name='对应用户的id')
+    alias = models.ManyToManyField('alias', verbose_name='歌手的其他名称')
+    desc = models.CharField(default='', max_length=1000, verbose_name='描述')
+    imgUrl = models.CharField(default='', max_length=100, verbose_name='头像地址')
 
     def __str__(self):
         return self.name
@@ -73,3 +76,11 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class alias(models.Model):
+    name = models.CharField(max_length=30, verbose_name='别名')
+
+
+class tag(models.Model):
+    name = models.CharField(max_length=10, verbose_name='标签')
