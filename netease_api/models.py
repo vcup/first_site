@@ -12,9 +12,16 @@ class Song(models.Model):
 
 
 class Album(models.Model):
-    song = models.ManyToManyField('Song', verbose_name='Album songs')
-    name = models.CharField(max_length=50, verbose_name='Album name')
-    id = models.IntegerField(verbose_name='Album id', primary_key=True)
+    song = models.ManyToManyField('Song', verbose_name='专辑包涵的单曲')
+    name = models.CharField(max_length=50, verbose_name='专辑名')
+    id = models.IntegerField(verbose_name='专辑id', primary_key=True)
+    pub_date = models.DateTimeField(verbose_name='发布时间')
+    company = models.CharField(default='', max_length=50, verbose_name='发行商')
+    desc = models.CharField(default='', max_length=1000)
+    imgUrl = models.CharField(default='', max_length=100)
+    tag = models.ManyToManyField('tag', verbose_name='专辑标签')
+    type = models.CharField(default='专辑', max_length=50, verbose_name='类型')
+    subtype = models.CharField(default='录音室版', max_length=50, verbose_name='子类型')
 
     def __str__(self):
         return self.name
