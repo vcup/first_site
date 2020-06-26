@@ -8,27 +8,28 @@ class ModelTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        now = timezone.now()
         cls.s1 = Song.objects.create(name='s1', id=10)
         cls.s2 = Song.objects.create(name='s2', id=20)
         cls.s3 = Song.objects.create(name='s3', id=30)
         cls.s1.save(), cls.s2.save(), cls.s3.save()
 
-        cls.al1 = Album.objects.create(name='al1', id=11)
-        cls.al2 = Album.objects.create(name='al2', id=21)
-        cls.al3 = Album.objects.create(name='al3', id=31)
+        cls.al1 = Album.objects.create(name='al1', id=11, pub_date=now)
+        cls.al2 = Album.objects.create(name='al2', id=21, pub_date=now)
+        cls.al3 = Album.objects.create(name='al3', id=31, pub_date=now)
         cls.al1.save(), cls.al2.save(), cls.al3.save()
 
         cls.a1 = Artist.objects.create(name='a1', id=12)
         cls.a2 = Artist.objects.create(name='a2', id=22)
         cls.a3 = Artist.objects.create(name='a3', id=32)
 
-        cls.u1 = User.objects.create(name='u1', id=14, createTime=timezone.now(), birthday=timezone.now())
-        cls.u2 = User.objects.create(name='u2', id=24, createTime=timezone.now(), birthday=timezone.now())
-        cls.u3 = User.objects.create(name='u3', id=34, createTime=timezone.now(), birthday=timezone.now())
+        cls.u1 = User.objects.create(name='u1', id=14, createTime=now, birthday=now)
+        cls.u2 = User.objects.create(name='u2', id=24, createTime=now, birthday=now)
+        cls.u3 = User.objects.create(name='u3', id=34, createTime=now, birthday=now)
 
-        cls.p1 = PlayList.objects.create(name='p1', id=13, createTime=timezone.now(), master_uid=34)
-        cls.p2 = PlayList.objects.create(name='p2', id=23, type=5, createTime=timezone.now(), master_uid=34)
-        cls.p3 = PlayList.objects.create(name='p3', id=33, type=1, createTime=timezone.now(), master_uid=34)
+        cls.p1 = PlayList.objects.create(name='p1', id=13, createTime=now, master_uid=34)
+        cls.p2 = PlayList.objects.create(name='p2', id=23, type=5, createTime=now, master_uid=34)
+        cls.p3 = PlayList.objects.create(name='p3', id=33, type=1, createTime=now, master_uid=34)
 
         cls.a1.album.add(cls.al1)
         cls.a2.album.add(cls.al1, cls.al2)
