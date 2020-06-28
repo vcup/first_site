@@ -4,8 +4,16 @@ from django.db import models
 
 
 class Song(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Song name')
-    id = models.IntegerField(verbose_name='Song id', primary_key=True)
+    name = models.CharField(max_length=50, verbose_name='单曲名')
+    id = models.IntegerField(verbose_name='单曲id', primary_key=True)
+    in_album_no = models.IntegerField(default=0, verbose_name='专辑序号')
+    pop = models.IntegerField(default=0, verbose_name='人气')
+    mvid = models.IntegerField(default=0, verbose_name='MV的id')
+    duration = models.IntegerField(default=0, verbose_name='持续时间')
+
+    def duration_str(self):
+        t = self.duration // 1000
+        return f'{int(t // 60)}:{t % 60}'
 
     def __str__(self):
         return self.name
