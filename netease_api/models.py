@@ -39,7 +39,7 @@ class Artist(models.Model):
     album = models.ManyToManyField('Album', verbose_name='歌手拥有的专辑')
     name = models.CharField(max_length=30, verbose_name='歌手名')
     id = models.IntegerField(verbose_name='歌手id', primary_key=True)
-    user_id = models.IntegerField(verbose_name='对应用户的id')
+    user_id = models.IntegerField(default=0, verbose_name='对应用户的id')
     alias = models.ManyToManyField('alias', verbose_name='歌手的其他名称')
     desc = models.CharField(default='', max_length=1000, verbose_name='描述')
     imgUrl = models.CharField(default='', max_length=100, verbose_name='头像地址')
