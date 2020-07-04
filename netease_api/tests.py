@@ -52,28 +52,28 @@ class ModelTests(TestCase):
 class SongModelTests(ModelTests):
 
     def test_song_name(self):
-        self.assertEqual((self.s1.name, self.s2.name, self.s3.name), ('s1', 's2', 's3'))
+        self.assertEqual(('s1', 's2', 's3'), (self.s1.name, self.s2.name, self.s3.name))
 
     def test_song_id(self):
-        self.assertEqual((self.s1.id, self.s2.id, self.s3.id), (10, 20, 30))
+        self.assertEqual((10, 20, 30), (self.s1.id, self.s2.id, self.s3.id))
 
     def test_s1_in_album(self):
-        self.assertEqual(list(self.s3.album_set.all()), [self.al3])
+        self.assertEqual([self.al3], list(self.s3.album_set.all()))
 
     def test_s2_in_album(self):
-        self.assertEqual(list(self.s2.album_set.all()), [self.al2, self.al3])
+        self.assertEqual([self.al2, self.al3], list(self.s2.album_set.all()))
 
     def test_s3_in_album(self):
-        self.assertEqual(list(self.s1.album_set.all()), [self.al1, self.al2, self.al3])
+        self.assertEqual([self.al1, self.al2, self.al3], list(self.s1.album_set.all()))
 
     def test_s1_in_playlist(self):
-        self.assertEqual(list(self.s1.playlist_set.all()), [self.p1, self.p2, self.p3])
+        self.assertEqual([self.p1, self.p2, self.p3], list(self.s1.playlist_set.all()))
 
     def test_s2_in_playlist(self):
-        self.assertEqual(list(self.s2.playlist_set.all()), [self.p2, self.p3])
+        self.assertEqual([self.p2, self.p3], list(self.s2.playlist_set.all()))
 
     def test_s3_in_playlist(self):
-        self.assertEqual(list(self.s3.playlist_set.all()), [self.p3])
+        self.assertEqual([self.p3], list(self.s3.playlist_set.all()))
 
     def test_s1_duration_str(self):
         self.assertEqual('1:29.051', self.s1.duration_str())
@@ -88,85 +88,85 @@ class SongModelTests(ModelTests):
 class AlbumModelTests(ModelTests):
 
     def test_album_name(self):
-        self.assertEqual((self.al1.name, self.al2.name, self.al3.name), ('al1', 'al2', 'al3'))
+        self.assertEqual(('al1', 'al2', 'al3'), (self.al1.name, self.al2.name, self.al3.name))
 
     def test_album_id(self):
-        self.assertEqual((self.al1.id, self.al2.id, self.al3.id), (11, 21, 31))
+        self.assertEqual((11, 21, 31), (self.al1.id, self.al2.id, self.al3.id))
 
     def test_al1_in_artist(self):
-        self.assertEqual(list(self.al1.artist_set.all()), [self.a1, self.a2, self.a3])
+        self.assertEqual([self.a1, self.a2, self.a3], list(self.al1.artist_set.all()))
 
     def test_al2_in_artist(self):
-        self.assertEqual(list(self.al2.artist_set.all()), [self.a2, self.a3])
+        self.assertEqual([self.a2, self.a3], list(self.al2.artist_set.all()))
 
     def test_al3_in_artist(self):
-        self.assertEqual(list(self.al3.artist_set.all()), [self.a3])
+        self.assertEqual([self.a3], list(self.al3.artist_set.all()))
 
 
 class ArtistModelTests(ModelTests):
 
     def test_artist_name(self):
-        self.assertEqual((self.a1.name, self.a2.name, self.a3.name), ('a1', 'a2', 'a3'))
+        self.assertEqual(('a1', 'a2', 'a3'), (self.a1.name, self.a2.name, self.a3.name))
 
     def test_artist_id(self):
-        self.assertEqual((self.a1.id, self.a2.id, self.a3.id), (12, 22, 32))
+        self.assertEqual((12, 22, 32), (self.a1.id, self.a2.id, self.a3.id))
 
     def test_a1_have_album(self):
-        self.assertEqual(list(self.a1.album.all()), [self.al1])
+        self.assertEqual([self.al1], list(self.a1.album.all()))
 
     def test_a2_have_album(self):
-        self.assertEqual(list(self.a2.album.all()), [self.al1, self.al2])
+        self.assertEqual([self.al1, self.al2], list(self.a2.album.all()))
 
     def test_a3_have_album(self):
-        self.assertEqual(list(self.a3.album.all()), [self.al1, self.al2, self.al3])
+        self.assertEqual([self.al1, self.al2, self.al3], list(self.a3.album.all()))
 
 
 class PlayListModelTests(ModelTests):
 
     def test_playlist_name(self):
-        self.assertEqual((self.p1.name, self.p2.name, self.p3.name), ('p1', 'p2', 'p3'))
+        self.assertEqual(('p1', 'p2', 'p3'), (self.p1.name, self.p2.name, self.p3.name))
 
     def test_playlist_id(self):
-        self.assertEqual((self.p1.id, self.p2.id, self.p3.id), (13, 23, 33))
+        self.assertEqual((13, 23, 33), (self.p1.id, self.p2.id, self.p3.id))
 
     def test_playlist_type(self):
-        self.assertEqual((self.p1.type, self.p2.type, self.p3.type), (0, 5, 1))
+        self.assertEqual((0, 5, 1), (self.p1.type, self.p2.type, self.p3.type))
 
     def test_p1_have_song(self):
-        self.assertEqual(list(self.p1.song.all()), [self.s1])
+        self.assertEqual([self.s1], list(self.p1.song.all()))
 
     def test_p2_have_song(self):
-        self.assertEqual(list(self.p2.song.all()), [self.s1, self.s2])
+        self.assertEqual([self.s1, self.s2], list(self.p2.song.all()))
 
     def test_p3_have_song(self):
-        self.assertEqual(list(self.p3.song.all()), [self.s1, self.s2, self.s3])
+        self.assertEqual([self.s1, self.s2, self.s3], list(self.p3.song.all()))
 
     def test_p1_in_user(self):
-        self.assertEqual(list(self.p1.user_set.all()), [self.u3, self.u1, self.u2])
+        self.assertEqual([self.u3, self.u1, self.u2], list(self.p1.user_set.all()))
 
     def test_p2_in_user(self):
-        self.assertEqual(list(self.p2.user_set.all()), [self.u3, self.u2])
+        self.assertEqual([self.u3, self.u2], list(self.p2.user_set.all()))
 
     def test_p3_in_user(self):
-        self.assertEqual(list(self.p3.user_set.all()), [self.u3])
+        self.assertEqual([self.u3], list(self.p3.user_set.all()))
 
 
 class UserModelTests(ModelTests):
 
     def test_user_name(self):
-        self.assertEqual((self.u1.name, self.u2.name, self.u3.name), ('u1', 'u2', 'u3'))
+        self.assertEqual(('u1', 'u2', 'u3'), (self.u1.name, self.u2.name, self.u3.name))
 
     def test_user_id(self):
-        self.assertEqual((self.u1.id, self.u2.id, self.u3.id), (14, 24, 34))
+        self.assertEqual((14, 24, 34), (self.u1.id, self.u2.id, self.u3.id))
 
     def test_u1_have_playlist(self):
-        self.assertEqual(list(self.u1.playlist.all()), [self.p1])
+        self.assertEqual([self.p1], list(self.u1.playlist.all()))
 
     def test_u2_have_playlist(self):
-        self.assertEqual(list(self.u2.playlist.all()), [self.p1, self.p2])
+        self.assertEqual([self.p1, self.p2], list(self.u2.playlist.all()))
 
     def test_u3_have_playlist(self):
-        self.assertEqual(list(self.u3.playlist.all()), [self.p1, self.p2, self.p3])
+        self.assertEqual([self.p1, self.p2, self.p3], list(self.u3.playlist.all()))
 
     def test_u3_have_self_created_playlist(self):
-        self.assertEqual(list(self.u1.playlist.all()), [self.p1])
+        self.assertEqual([self.p1], list(self.u1.playlist.all()))
