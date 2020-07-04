@@ -120,6 +120,15 @@ class ArtistModelTests(ModelTests):
     def test_a3_have_album(self):
         self.assertEqual([self.al1, self.al2, self.al3], list(self.a3.album.all()))
 
+    def test_a1_song_set(self):
+        self.assertEqual([self.s1], self.a1.return_song_set())
+
+    def test_a2_song_set(self):
+        self.assertEqual([self.s1, self.s2], self.a2.return_song_set())
+
+    def test_a3_song_set(self):
+        self.assertEqual([self.s1, self.s2, self.s3], self.a3.return_song_set())
+
 
 class PlayListModelTests(ModelTests):
 
@@ -170,3 +179,12 @@ class UserModelTests(ModelTests):
 
     def test_u3_have_self_created_playlist(self):
         self.assertEqual([self.p1], list(self.u1.playlist.all()))
+
+    def test_u1_song_set(self):
+        self.assertEqual([self.s1], self.u1.return_song_set())
+
+    def test_u2_song_set(self):
+        self.assertEqual([self.s1, self.s2], self.u2.return_song_set())
+
+    def test_u3_song_set(self):
+        self.assertEqual([self.s1, self.s2, self.s3], self.u3.return_song_set())

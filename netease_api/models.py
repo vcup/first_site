@@ -29,7 +29,7 @@ class Album(models.Model):
     company = models.CharField(default='', max_length=50, verbose_name='发行商')
     desc = models.CharField(default='', max_length=1000)
     imgUrl = models.CharField(default='', max_length=100)
-    tag = models.ManyToManyField('tag', verbose_name='专辑标签')
+    tag = models.ManyToManyField('netease_api.models.Tag', verbose_name='专辑标签')
     type = models.CharField(default='专辑', max_length=50, verbose_name='类型')
     subtype = models.CharField(default='录音室版', max_length=50, verbose_name='子类型')
 
@@ -42,15 +42,17 @@ class Artist(models.Model):
     name = models.CharField(max_length=30, verbose_name='歌手名')
     id = models.IntegerField(verbose_name='歌手id', primary_key=True)
     user_id = models.IntegerField(default=0, verbose_name='对应用户的id')
-    alias = models.ManyToManyField('alias', verbose_name='歌手的其他名称')
+    alias = models.ManyToManyField('netease_api.models.Alias', verbose_name='歌手的其他名称')
     desc = models.CharField(default='', max_length=1000, verbose_name='描述')
     imgUrl = models.CharField(default='', max_length=100, verbose_name='头像地址')
 
     def __str__(self):
         return self.name
 
-    def return_song_set(self) -> set:
-        return set(s for a in self.album.all() for s in a.song.all())
+    def return_song_set(self) -> list:
+        tmp_dict = {}
+        [tmp_dict.setdefault(s, None) for a in self.album.all() for s in a.song.all()]
+        return list(tmp_dict.keys())
 
 
 class PlayList(models.Model):
@@ -94,13 +96,15 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
-    def return_song_set(self):
-        return set(s for p in self.playlist.all() for s in p.objects.all())
+    def return_song_set(self) -> list:
+        tmp_dict = {}
+        [tmp_dict.setdefault(s, None) for p in self.playlist.all() for s in p.song.all()]
+        return list(tmp_dict.keys())
 
 
-class alias(models.Model):
+class Alias(models.Model):
     name = models.CharField(max_length=30, verbose_name='别名')
 
 
-class tag(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=10, verbose_name='标签')
