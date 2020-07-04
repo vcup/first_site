@@ -9,15 +9,13 @@ class ModelTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         now = timezone.now()
-        cls.s1 = Song.objects.create(name='s1', id=10)
-        cls.s2 = Song.objects.create(name='s2', id=20)
-        cls.s3 = Song.objects.create(name='s3', id=30)
-        cls.s1.save(), cls.s2.save(), cls.s3.save()
+        cls.s1 = Song.objects.create(name='s1', id=10, duration=89051)
+        cls.s2 = Song.objects.create(name='s2', id=20, duration=215400)
+        cls.s3 = Song.objects.create(name='s3', id=30, duration=260996)
 
         cls.al1 = Album.objects.create(name='al1', id=11, pub_date=now)
         cls.al2 = Album.objects.create(name='al2', id=21, pub_date=now)
         cls.al3 = Album.objects.create(name='al3', id=31, pub_date=now)
-        cls.al1.save(), cls.al2.save(), cls.al3.save()
 
         cls.a1 = Artist.objects.create(name='a1', id=12)
         cls.a2 = Artist.objects.create(name='a2', id=22)
@@ -76,6 +74,15 @@ class SongModelTests(ModelTests):
 
     def test_s3_in_playlist(self):
         self.assertEqual(list(self.s3.playlist_set.all()), [self.p3])
+
+    def test_s1_duration_str(self):
+        self.assertEqual('1:29.051', self.s1.duration_str())
+
+    def test_s2_duration_str(self):
+        self.assertEqual('3:35.400', self.s2.duration_str())
+
+    def test_s3_duration_str(self):
+        self.assertEqual('4:20.996', self.s3.duration_str())
 
 
 class AlbumModelTests(ModelTests):

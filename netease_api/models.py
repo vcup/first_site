@@ -1,3 +1,4 @@
+import decimal
 from typing import List
 
 from django.db import models
@@ -12,8 +13,9 @@ class Song(models.Model):
     duration = models.IntegerField(default=0, verbose_name='持续时间')
 
     def duration_str(self):
-        t = self.duration // 1000
-        return f'{int(t // 60)}:{t % 60}'
+        t = self.duration / 1000
+        last_time = decimal.Decimal(t % 60).quantize(decimal.Decimal('0.000'), rounding=decimal.ROUND_HALF_UP)
+        return f'{int(t // 60)}:{last_time}'
 
     def __str__(self):
         return self.name
@@ -47,8 +49,8 @@ class Artist(models.Model):
     def __str__(self):
         return self.name
 
-    def return_self_have_song(self) -> List[List[Song]]:
-        return [list(al.song.all()) for al in self.album.all()]
+    def return_song_set(self) -> set:
+        return set(s for a in self.album.all() for s in a.song.all())
 
 
 class PlayList(models.Model):
@@ -91,6 +93,9 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+    def return_song_set(self):
+        return set(s for p in self.playlist.all() for s in p.objects.all())
 
 
 class alias(models.Model):
