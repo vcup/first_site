@@ -102,6 +102,15 @@ class AlbumModelTests(ModelTests):
     def test_al3_in_artist(self):
         self.assertEqual([self.a3], list(self.al3.artist_set.all()))
 
+    def test_al1_size(self):
+        self.assertEqual(1, self.al1.size())
+
+    def test_al2_size(self):
+        self.assertEqual(2, self.al2.size())
+
+    def test_al3_size(self):
+        self.assertEqual(3, self.al3.size())
+
 
 class ArtistModelTests(ModelTests):
 
@@ -121,13 +130,31 @@ class ArtistModelTests(ModelTests):
         self.assertEqual([self.al1, self.al2, self.al3], list(self.a3.album.all()))
 
     def test_a1_song_set(self):
-        self.assertEqual([self.s1], self.a1.return_song_set())
+        self.assertEqual([self.s1], self.a1.song_set())
 
     def test_a2_song_set(self):
-        self.assertEqual([self.s1, self.s2], self.a2.return_song_set())
+        self.assertEqual([self.s1, self.s2], self.a2.song_set())
 
     def test_a3_song_set(self):
-        self.assertEqual([self.s1, self.s2, self.s3], self.a3.return_song_set())
+        self.assertEqual([self.s1, self.s2, self.s3], self.a3.song_set())
+
+    def test_a1_album_size(self):
+        self.assertEqual(1, self.a1.album_size())
+
+    def test_a2_album_size(self):
+        self.assertEqual(2, self.a2.album_size())
+
+    def test_a3_album_size(self):
+        self.assertEqual(3, self.a3.album_size())
+
+    def test_a1_song_size(self):
+        self.assertEqual(1, self.a1.song_size())
+
+    def test_a2_song_size(self):
+        self.assertEqual(2, self.a2.song_size())
+
+    def test_a3_song_size(self):
+        self.assertEqual(3, self.a3.song_size())
 
 
 class PlayListModelTests(ModelTests):
@@ -159,6 +186,15 @@ class PlayListModelTests(ModelTests):
     def test_p3_in_user(self):
         self.assertEqual([self.u3], list(self.p3.user_set.all()))
 
+    def test_p1_size(self):
+        self.assertEqual(1, self.p1.size())
+
+    def test_p2_size(self):
+        self.assertEqual(2, self.p2.size())
+
+    def test_p3_size(self):
+        self.assertEqual(3, self.p3.size())
+
 
 class UserModelTests(ModelTests):
 
@@ -181,10 +217,28 @@ class UserModelTests(ModelTests):
         self.assertEqual([self.p1], list(self.u1.playlist.all()))
 
     def test_u1_song_set(self):
-        self.assertEqual([self.s1], self.u1.return_song_set())
+        self.assertEqual([self.s1], self.u1.song_set())
 
     def test_u2_song_set(self):
-        self.assertEqual([self.s1, self.s2], self.u2.return_song_set())
+        self.assertEqual([self.s1, self.s2], self.u2.song_set())
 
     def test_u3_song_set(self):
-        self.assertEqual([self.s1, self.s2, self.s3], self.u3.return_song_set())
+        self.assertEqual([self.s1, self.s2, self.s3], self.u3.song_set())
+
+    def test_u1_playlist_size(self):
+        self.assertEqual(1, self.u1.playlist_size())
+
+    def test_u2_playlist_size(self):
+        self.assertEqual(2, self.u2.playlist_size())
+
+    def test_u3_playlist_size(self):
+        self.assertEqual(3, self.u3.playlist_size())
+
+    def test_u1_song_size(self):
+        self.assertEqual(1, self.u1.song_size())
+
+    def test_u2_song_size(self):
+        self.assertEqual(2, self.u2.song_size())
+
+    def test_u3_song_size(self):
+        self.assertEqual(3, self.u3.song_size())

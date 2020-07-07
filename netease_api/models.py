@@ -1,5 +1,4 @@
 import decimal
-from typing import List
 
 from django.db import models
 
@@ -29,12 +28,15 @@ class Album(models.Model):
     company = models.CharField(default='', max_length=50, verbose_name='发行商')
     desc = models.CharField(default='', max_length=1000)
     imgUrl = models.CharField(default='', max_length=100)
-    tag = models.ManyToManyField('netease_api.models.Tag', verbose_name='专辑标签')
+    tag = models.ManyToManyField('netease_api.Tag', verbose_name='专辑标签')
     type = models.CharField(default='专辑', max_length=50, verbose_name='类型')
     subtype = models.CharField(default='录音室版', max_length=50, verbose_name='子类型')
 
     def __str__(self):
         return self.name
+
+    def size(self) -> int:
+        return self.song.count()
 
 
 class Artist(models.Model):
@@ -42,17 +44,23 @@ class Artist(models.Model):
     name = models.CharField(max_length=30, verbose_name='歌手名')
     id = models.IntegerField(verbose_name='歌手id', primary_key=True)
     user_id = models.IntegerField(default=0, verbose_name='对应用户的id')
-    alias = models.ManyToManyField('netease_api.models.Alias', verbose_name='歌手的其他名称')
+    alias = models.ManyToManyField('netease_api.Alias', verbose_name='歌手的其他名称')
     desc = models.CharField(default='', max_length=1000, verbose_name='描述')
     imgUrl = models.CharField(default='', max_length=100, verbose_name='头像地址')
 
     def __str__(self):
         return self.name
 
-    def return_song_set(self) -> list:
+    def song_set(self) -> list:
         tmp_dict = {}
         [tmp_dict.setdefault(s, None) for a in self.album.all() for s in a.song.all()]
         return list(tmp_dict.keys())
+
+    def album_size(self) -> int:
+        return self.album.count()
+
+    def song_size(self) -> int:
+        return len(self.song_set())
 
 
 class PlayList(models.Model):
@@ -79,6 +87,9 @@ class PlayList(models.Model):
     def master_user(self) -> 'User':
         return User.objects.get(pk=self.master_uid)
 
+    def size(self) -> int:
+        return self.song.count()
+
 
 class User(models.Model):
     playlist = models.ManyToManyField('PlayList', verbose_name='用户拥有的歌单')
@@ -96,10 +107,16 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
-    def return_song_set(self) -> list:
+    def song_set(self) -> list:
         tmp_dict = {}
         [tmp_dict.setdefault(s, None) for p in self.playlist.all() for s in p.song.all()]
         return list(tmp_dict.keys())
+
+    def playlist_size(self) -> int:
+        return self.playlist.count()
+
+    def song_size(self) -> int:
+        return len(self.song_set())
 
 
 class Alias(models.Model):
